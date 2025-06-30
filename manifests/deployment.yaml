@@ -27,7 +27,7 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
-        imagePullPolicy: Always
+        imagePullPolicy: Never
         env:
           - name: SPRING_APPLICATION_NAME
             value: "rabbitmq-consumer"
