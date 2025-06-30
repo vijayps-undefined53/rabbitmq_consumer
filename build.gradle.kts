@@ -21,7 +21,7 @@ dependencies {
 	// Lombok dependency for compile-time
 	compileOnly("org.projectlombok:lombok:1.18.34")
 	// Lombok dependency for annotation processing during compilation
-	annotationProcessor(".projectlombok:lombok:1.18.34")
+	annotationProcessor("org.projectlombok:lombok:1.18.34")
 	implementation("org.springframework.boot:spring-boot-starter-amqp")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
