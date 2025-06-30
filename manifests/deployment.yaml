@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: rabbitmq-consumer
+  name: rabbitmq-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-consumer
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: rabbitmq-consumer
+    spec:
+      containers:
+      - image: rabbitmq-consumer:${IMAGE_TAG}
+        name: rabbitmq-consumer
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        imagePullPolicy: Always
+        env:
+          - name: SPRING_APPLICATION_NAME
+            value: "rabbitmq-consumer"
+          - name: SPRING_RABBITMQ_HOST
+            value: "rabbitmq"
+          - name: SPRING_RABBITMQ_PORT
+            value: "5672"
+          - name: SPRING_RABBITMQ_USERNAME
+            value: "guest"
+          - name: SPRING_RABBITMQ_PASSWORD
+            value: "guest"
+status: {}
