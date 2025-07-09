@@ -4,8 +4,13 @@ services:
     container_name: rabbitmq
     image: rabbitmq:3-management
     ports:
+      - "5671:5671"
       - "5672:5672"
       - "15672:15672"
+    volumes:
+      - ./rabbitmq.p12:/etc/rabbitmq/certs/rabbitmq.p12
+      - ./ca.crt:/etc/rabbitmq/certs/ca.crt
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     networks:
       - rabbitmq_network
   rabbitmq_consumer:
@@ -16,10 +21,15 @@ services:
       - rabbitmq
     environment:
       SPRING_APPLICATION_NAME: rabbitmq_consumer
-      SPRING.RABBITMQ.HOST: rabbitmq
-      SPRING.RABBITMQ.PORT: 5672
-      SPRING.RABBITMQ.USERNAME: guest
-      SPRING.RABBITMQ.PASSWORD: guest
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5671
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      SPRING_RABBITMQ_SSL_ENABLED: true
+      SPRING_RABBITMQ_SSL_TRUST_STORE: /app/certs/client-truststore.p12
+      SPRING_RABBITMQ_SSL_TRUST_STORE_PASSWORD: MyTruststorePass
+    volumes:
+      - ./client-truststore.p12:/app/certs/client-truststore.p12
     networks:
       - rabbitmq_network
 networks:

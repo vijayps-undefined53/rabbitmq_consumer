@@ -105,14 +105,6 @@ public class RabbitMQConfiguration {
         simpleRabbitListenerContainerFactory.setAutoStartup(true);
         simpleRabbitListenerContainerFactory.setMissingQueuesFatal(false);
 
-        RetryTemplate retryTemplate = getRetryTemplate();
-
-        simpleRabbitListenerContainerFactory.setRetryTemplate(retryTemplate);
-
-        return simpleRabbitListenerContainerFactory;
-    }
-
-    private static RetryTemplate getRetryTemplate() {
         ExponentialBackOffPolicy exponentialBackOffPolicy = new ExponentialBackOffPolicy();
         exponentialBackOffPolicy.setInitialInterval(1000);
         exponentialBackOffPolicy.setMultiplier(2);
@@ -125,7 +117,10 @@ public class RabbitMQConfiguration {
         retryTemplate.setRetryPolicy(simpleRetryPolicy);
         retryTemplate.setBackOffPolicy(exponentialBackOffPolicy);
         retryTemplate.setThrowLastExceptionOnExhausted(true);
-        return retryTemplate;
+
+        simpleRabbitListenerContainerFactory.setRetryTemplate(retryTemplate);
+
+        return simpleRabbitListenerContainerFactory;
     }
 
     @Bean

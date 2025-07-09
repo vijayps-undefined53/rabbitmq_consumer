@@ -28,15 +28,28 @@ spec:
             memory: "512Mi"
             cpu: "500m"
         imagePullPolicy: Never
+        volumeMounts:
+        - name: client-certs
+          mountPath: /app/certs
         env:
           - name: SPRING_APPLICATION_NAME
             value: "rabbitmq-consumer"
           - name: SPRING_RABBITMQ_HOST
             value: "rabbitmq"
           - name: SPRING_RABBITMQ_PORT
-            value: "5672"
+            value: "5671"
           - name: SPRING_RABBITMQ_USERNAME
             value: "guest"
           - name: SPRING_RABBITMQ_PASSWORD
             value: "guest"
+          - name: SPRING_RABBITMQ_SSL_ENABLED
+            value: "true"
+          - name: SPRING_RABBITMQ_SSL_TRUST_STORE
+            value: "/app/certs/client-truststore.p12"
+          - name: SPRING_RABBITMQ_SSL_TRUST_STORE_PASSWORD
+            value: "MyTruststorePass"
+      volumes:
+      - name: client-certs
+        secret:
+          secretName: client-certs
 status: {}
